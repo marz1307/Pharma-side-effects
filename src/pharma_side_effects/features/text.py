@@ -30,7 +30,7 @@ def build_text_feature_union(text_columns: list[str], cfg: TfidfConfig) -> Colum
     """
     transformers = [
         (
-            f"tfidf__{col}",
+            f"tfidf_{col.replace(' ', '_')}",
             TfidfVectorizer(
                 max_features=cfg.max_features,
                 ngram_range=cfg.ngram_range,
