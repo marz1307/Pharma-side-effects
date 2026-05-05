@@ -1,0 +1,62 @@
+# Default configuration for the pharma_side_effects pipeline.
+# All hyperparameters, paths, and category settings live here.
+
+paths:
+  raw_data: data/raw/Medicine_Details.xls
+  processed_dir: data/processed
+  models_dir: models
+  reports_dir: reports
+
+data:
+  text_columns:
+    - "Medicine Name"
+    - "Composition"
+    - "Uses"
+    - "Side_effects"
+  numeric_columns:
+    - "Excellent Review %"
+    - "Average Review %"
+    - "Poor Review %"
+  categorical_columns:
+    - "Manufacturer"
+  side_effects_column: "Side_effects"
+  target_column: "Side_Effect_Class"
+  grouped_target_column: "Side_Effect_Class_Grouped"
+  rare_classes_to_group:
+    - "Psychiatric"
+    - "Respiratory"
+    - "Cardiovascular"
+    - "Musculoskeletal"
+  group_rare_classes: true
+
+split:
+  test_size: 0.2
+  random_state: 42
+  stratify: true
+
+features:
+  tfidf:
+    max_features: 250
+    ngram_range: [1, 2]
+    stop_words: "english"
+    lowercase: true
+
+models:
+  default: random_forest
+  random_forest:
+    n_estimators: 100
+    max_depth: 15
+    min_samples_split: 5
+    min_samples_leaf: 2
+    n_jobs: -1
+    random_state: 42
+  logistic_regression:
+    max_iter: 1000
+    C: 1.0
+    solver: lbfgs
+    class_weight: balanced
+    random_state: 42
+
+evaluation:
+  zero_division: 0
+  figure_size: [12, 10]

@@ -1,0 +1,110 @@
+[build-system]
+requires = ["hatchling>=1.21"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pharma-side-effects"
+version = "0.1.0"
+description = "Multi-class classifier mapping pharmaceutical adverse-event text to standardized clinical categories."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+authors = [{ name = "Marvis Osazuwa", email = "marvis.osazuwa@hotmail.com" }]
+keywords = ["pharmacovigilance", "nlp", "classification", "scikit-learn", "healthcare"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Healthcare Industry",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "pandas>=2.0",
+    "numpy>=1.24",
+    "scikit-learn>=1.3",
+    "scipy>=1.10",
+    "joblib>=1.3",
+    "pyyaml>=6.0",
+    "matplotlib>=3.7",
+    "seaborn>=0.12",
+    "openpyxl>=3.1",
+    "xlrd>=2.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4",
+    "pytest-cov>=4.1",
+    "ruff>=0.4",
+    "black>=24.3",
+    "isort>=5.13",
+    "pre-commit>=3.6",
+    "ipykernel>=6.29",
+]
+
+[project.scripts]
+pharma-side-effects = "pharma_side_effects.cli:main"
+
+[project.urls]
+Homepage = "https://marz1307.github.io"
+Repository = "https://github.com/marz1307"
+Issues = "https://github.com/marz1307/pharma-side-effects/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pharma_side_effects"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "src/pharma_side_effects",
+    "configs",
+    "README.md",
+    "LICENSE",
+]
+
+[tool.black]
+line-length = 100
+target-version = ["py310", "py311", "py312"]
+
+[tool.isort]
+profile = "black"
+line_length = 100
+known_first_party = ["pharma_side_effects"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # bugbear
+    "UP",  # pyupgrade
+    "N",   # pep8-naming
+    "SIM", # simplify
+]
+ignore = ["E501", "N803", "N806"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["B011"]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra --strict-markers"
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.coverage.run]
+source = ["pharma_side_effects"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
